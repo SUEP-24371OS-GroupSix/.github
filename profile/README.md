@@ -20,8 +20,8 @@
 
 | 实验仓库 | Fork 来源 | 提交作者与次数 | 提交记录 |
 | --- | --- | --- | --- |
-| [linux011-process-scheduling-lab](https://github.com/SUEP-24371OS-GroupSix/linux011-process-scheduling-lab) | [YueChenLi-lab/linux011-process-scheduling-lab](https://github.com/YueChenLi-lab/linux011-process-scheduling-lab) | [YueChenLi-lab](https://github.com/YueChenLi-lab)：2 次 | [查看记录](https://github.com/SUEP-24371OS-GroupSix/linux011-process-scheduling-lab/commits) |
 | [linux-thread-mechanism-lab](https://github.com/SUEP-24371OS-GroupSix/linux-thread-mechanism-lab) | [YueChenLi-lab/linux-thread-mechanism-lab](https://github.com/YueChenLi-lab/linux-thread-mechanism-lab) | [YueChenLi-lab](https://github.com/YueChenLi-lab)：9 次 | [查看记录](https://github.com/SUEP-24371OS-GroupSix/linux-thread-mechanism-lab/commits) |
+| [linux011-process-scheduling-lab](https://github.com/SUEP-24371OS-GroupSix/linux011-process-scheduling-lab) | [YueChenLi-lab/linux011-process-scheduling-lab](https://github.com/YueChenLi-lab/linux011-process-scheduling-lab) | [YueChenLi-lab](https://github.com/YueChenLi-lab)：2 次 | [查看记录](https://github.com/SUEP-24371OS-GroupSix/linux011-process-scheduling-lab/commits) |
 
 **统计口径**：按公开实验仓库默认分支的 GitHub 提交作者统计，包含 Fork 继承的历史和合并提交；同一提交出现在不同仓库时分别计数。统计不代表实际上传操作人、独立原创程度或工作量。未关联账号的作者单独汇总，不公开邮箱。
 
