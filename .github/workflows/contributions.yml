@@ -1,0 +1,33 @@
+name: 更新贡献图
+on:
+  schedule:
+    - cron: '17 1 * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/update_contributions.py'
+      - '.github/workflows/contributions.yml'
+permissions:
+  contents: write
+concurrency:
+  group: update-contributions
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 读取公开实验仓库并生成图表
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/update_contributions.py
+      - name: 保存更新
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add profile/README.md profile/contributions.svg profile/contributions.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "docs: 自动更新贡献者与 Fork 来源"
+          git push

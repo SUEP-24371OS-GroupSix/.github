@@ -1,0 +1,16 @@
+[
+  {
+    "name": "linux011-process-scheduling-lab",
+    "parent": "YueChenLi-lab/linux011-process-scheduling-lab",
+    "authors": {
+      "YueChenLi-lab": 2
+    }
+  },
+  {
+    "name": "linux-thread-mechanism-lab",
+    "parent": "YueChenLi-lab/linux-thread-mechanism-lab",
+    "authors": {
+      "YueChenLi-lab": 9
+    }
+  }
+]
