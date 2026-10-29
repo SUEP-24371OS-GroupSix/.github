@@ -2,7 +2,9 @@
   {
     "name": "linux-process-management-extensions",
     "parent": "YueChenLi-lab/linux-process-management-extensions",
-    "authors": {}
+    "authors": {
+      "YueChenLi-lab": 2
+    }
   },
   {
     "name": "linux-thread-mechanism-lab",
