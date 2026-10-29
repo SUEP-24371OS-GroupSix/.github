@@ -1,5 +1,7 @@
 [
   {
+    "title": "Linux 进程管理实验扩展",
+    "description": "PCB 双队列状态转换不变量测试、FCFS/SJF/RR 统一负载比较、nice 优先级多轮控制变量实验",
     "name": "linux-process-management-extensions",
     "parent": "YueChenLi-lab/linux-process-management-extensions",
     "authors": {
@@ -7,6 +9,8 @@
     }
   },
   {
+    "title": "Linux 线程创建与锁竞争实验",
+    "description": "pthread 线程创建、共享与独立状态观察、共享锁与分片方案对照、吞吐与等待延迟分析",
     "name": "linux-thread-mechanism-lab",
     "parent": "YueChenLi-lab/linux-thread-mechanism-lab",
     "authors": {
@@ -14,6 +18,8 @@
     }
   },
   {
+    "title": "Linux 0.11 进程调度与轨迹实验",
+    "description": "五子进程负载、进程创建与回收、进程状态轨迹及 Linux 0.11 实验复现说明",
     "name": "linux011-process-scheduling-lab",
     "parent": "YueChenLi-lab/linux011-process-scheduling-lab",
     "authors": {

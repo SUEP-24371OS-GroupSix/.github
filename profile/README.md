@@ -4,14 +4,19 @@
 
 欢迎来到操作系统课程第六组的实验资料主页。本组织用于集中整理和展示小组的实验源码、运行说明、实验结果与课程汇报材料。
 
+<!-- experiments:start -->
 ## 实验导航
 
 | 实验名称 | 内容简介 | 仓库入口 |
 | --- | --- | --- |
-| Linux 0.11 进程调度与轨迹实验 | 五子进程负载、进程创建与回收、进程状态轨迹及 Linux 0.11 实验复现说明 | [查看实验](https://github.com/SUEP-24371OS-GroupSix/linux011-process-scheduling-lab) |
+| Linux 进程管理实验扩展 | PCB 双队列状态转换不变量测试、FCFS/SJF/RR 统一负载比较、nice 优先级多轮控制变量实验 | [查看实验](https://github.com/SUEP-24371OS-GroupSix/linux-process-management-extensions) |
 | Linux 线程创建与锁竞争实验 | pthread 线程创建、共享与独立状态观察、共享锁与分片方案对照、吞吐与等待延迟分析 | [查看实验](https://github.com/SUEP-24371OS-GroupSix/linux-thread-mechanism-lab) |
+| Linux 0.11 进程调度与轨迹实验 | 五子进程负载、进程创建与回收、进程状态轨迹及 Linux 0.11 实验复现说明 | [查看实验](https://github.com/SUEP-24371OS-GroupSix/linux011-process-scheduling-lab) |
 
 各实验的运行方法、环境依赖、结果和验证状态，以对应仓库的 README 与实际提交材料为准。
+
+实验导航与贡献图同步刷新；新建公开实验仓库自动纳入。新仓库名称取自 README 一级标题，简介取自 GitHub About 描述；未填写时提供 README 入口说明。
+<!-- experiments:end -->
 
 <!-- contributions:start -->
 ## 贡献者与 Fork 来源
