@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import urllib.request
+import urllib.error
 
 ORG = "SUEP-24371OS-GroupSix"
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,7 +34,15 @@ def collect():
         if repo["name"] == ".github":
             continue
         meta = api(f"/repos/{ORG}/{repo['name']}")
-        commits = pages(f"/repos/{ORG}/{repo['name']}/commits") if meta["size"] else []
+        # Repository size can lag after a fork; only the commits API is authoritative.
+        try:
+            commits = pages(f"/repos/{ORG}/{repo['name']}/commits")
+        except urllib.error.HTTPError as error:
+            message = json.loads(error.read()).get("message", "")
+            if error.code == 409 and message.lower().rstrip(".") == "git repository is empty":
+                commits = []
+            else:
+                raise
         counts = collections.Counter()
         for commit in commits:
             author = commit.get("author")
