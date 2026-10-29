@@ -1,5 +1,10 @@
 [
   {
+    "name": "linux-process-management-extensions",
+    "parent": "YueChenLi-lab/linux-process-management-extensions",
+    "authors": {}
+  },
+  {
     "name": "linux-thread-mechanism-lab",
     "parent": "YueChenLi-lab/linux-thread-mechanism-lab",
     "authors": {
