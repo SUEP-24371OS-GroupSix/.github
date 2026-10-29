@@ -1,5 +1,7 @@
 """Refresh public experiment attribution; --data allows a reproducible offline render."""
 import argparse
+import base64
+import re
 import collections
 import html
 import json
@@ -28,6 +30,49 @@ def pages(path):
             return result
         page += 1
 
+
+# Course-friendly names for existing experiments. New repositories use their README title
+# and GitHub About description, falling back to the repository name and a README pointer.
+EXPERIMENTS = {
+    "linux011-process-scheduling-lab": ("Linux 0.11 进程调度与轨迹实验", "五子进程负载、进程创建与回收、进程状态轨迹及 Linux 0.11 实验复现说明"),
+    "linux-thread-mechanism-lab": ("Linux 线程创建与锁竞争实验", "pthread 线程创建、共享与独立状态观察、共享锁与分片方案对照、吞吐与等待延迟分析"),
+    "linux-process-management-extensions": ("Linux 进程管理实验扩展", "PCB 双队列状态转换不变量测试、FCFS/SJF/RR 统一负载比较、nice 优先级多轮控制变量实验"),
+}
+
+def experiment_info(meta):
+    if meta["name"] in EXPERIMENTS:
+        return EXPERIMENTS[meta["name"]]
+    title = meta["name"]
+    try:
+        readme = api(f"/repos/{ORG}/{meta['name']}/readme")
+    except urllib.error.HTTPError as error:
+        if error.code != 404:
+            raise
+    else:
+        raw = base64.b64decode(readme["content"]).decode("utf-8", errors="replace")
+        heading = re.search(r"(?m)^#\s+(.+?)\s*#*\s*$", raw)
+        if heading:
+            title = heading.group(1)
+    description = meta.get("description") or "实验内容、运行方法与结果见仓库 README。"
+    return title, description
+
+def cell(value):
+    return html.escape(" ".join(str(value).split())).replace("|", "&#124;").replace("[", "&#91;").replace("]", "&#93;")
+
+def navigation(data):
+    lines = ["<!-- experiments:start -->", "## 实验导航", "",
+             "| 实验名称 | 内容简介 | 仓库入口 |", "| --- | --- | --- |"]
+    for repo in data:
+        fallback = EXPERIMENTS.get(repo["name"], (repo["name"], "实验内容、运行方法与结果见仓库 README。"))
+        title = repo.get("title") or fallback[0]
+        description = repo.get("description") or fallback[1]
+        lines.append(f"| {cell(title)} | {cell(description)} | [查看实验](https://github.com/{ORG}/{repo['name']}) |")
+    lines.extend(["", "各实验的运行方法、环境依赖、结果和验证状态，以对应仓库的 README 与实际提交材料为准。",
+                  "", "实验导航与贡献图同步刷新；新建公开实验仓库自动纳入。新仓库名称取自 README 一级标题，简介取自 GitHub About 描述；未填写时提供 README 入口说明。",
+                  "<!-- experiments:end -->", ""])
+    return "\n".join(lines)
+
+
 def collect():
     result = []
     for repo in pages(f"/orgs/{ORG}/repos?type=public"):
@@ -49,7 +94,8 @@ def collect():
             # Never publish unlinked author email addresses.
             label = author["login"] if author else "未关联 GitHub 账号"
             counts[label] += 1
-        result.append({"name": repo["name"], "parent": (meta.get("parent") or {}).get("full_name"),
+        title, description = experiment_info(meta)
+        result.append({"title": title, "description": description, "name": repo["name"], "parent": (meta.get("parent") or {}).get("full_name"),
                        "authors": dict(sorted(counts.items(), key=lambda x: (-x[1], x[0])))})
     return sorted(result, key=lambda x: x["name"])
 
@@ -103,6 +149,15 @@ def render(data):
         text = before + block + after
     else:
         text = text.replace("## 课程展示要求", block + "\n\n## 课程展示要求")
+    nav = navigation(data)
+    if "<!-- experiments:start -->" in text and "<!-- experiments:end -->" in text:
+        before, tail = text.split("<!-- experiments:start -->", 1)
+        _, after = tail.split("<!-- experiments:end -->", 1)
+        text = before + nav.rstrip() + after
+    elif re.search(r"(?m)^## 实验导航\s*$", text):
+        text = re.sub(r"(?ms)^## 实验导航\s*\n.*?(?=^## |^<!-- contributions:start -->|\Z)", lambda _: nav + "\n", text, count=1)
+    else:
+        text = text.replace("<!-- contributions:start -->", nav + "\n<!-- contributions:start -->", 1)
     readme.write_text(text, encoding="utf-8")
 
 if __name__ == "__main__":
